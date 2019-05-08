@@ -51,7 +51,7 @@ export class BillsController {
     const bill = await this.billsServices.updateBill(id, createBillDto);
     if (!bill) { throw new NotFoundException('Cat does not exist!'); }
     return res.status(HttpStatus.OK).json({
-      message: 'Customer has been successfully updated',
+      message: 'Bill has been successfully updated',
       bill,
     });
   }
