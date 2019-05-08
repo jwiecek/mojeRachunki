@@ -14,7 +14,7 @@ export const UserSchema = new mongoose.Schema({
 });
 
 // NOTE: Arrow functions are not used here as we do not want to use lexical scope for 'this'
-UserSchema.pre('save', function(next){
+UserSchema.pre('save', function(next) {
 
   let user = this;
 
@@ -43,7 +43,7 @@ UserSchema.methods.checkPassword = function(attempt, callback){
   let user = this;
 
   bcrypt.compare(attempt, user.password, (err, isMatch) => {
-    if(err) return callback(err);
+    if (err) return callback(err);
     callback(null, isMatch);
   });
 
