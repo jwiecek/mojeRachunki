@@ -19,13 +19,19 @@ export class UsersController {
 
   // This route will require successfully passing our default auth strategy (JWT) in order
   // to access the route
-  @Get('test')
-  @UseGuards(AuthGuard())
+  // @Get('test')
+  // @UseGuards(AuthGuard())
+  //
+  // testAuthRoute() {
+  //   return {
+  //     message: 'You did it!'
+  //   }
+  // }
 
-  testAuthRoute() {
-    return {
-      message: 'You did it!'
-    }
+  @Get('users')
+  @UseGuards(AuthGuard())
+  findAll() {
+    return [];
   }
 
 }

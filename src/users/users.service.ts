@@ -10,16 +10,12 @@ export class UsersService {
   constructor(@Inject('UserModelToken') private userModel: Model<User>) {}
 
   async create(createUserDto: CreateUserDto) {
-
-    let createdUser = new this.userModel(createUserDto);
+    const createdUser = new this.userModel(createUserDto);
     return await createdUser.save();
-
   }
 
   async findOneByEmail(email): Model<User> {
-
     return await this.userModel.findOne({email: email});
-
   }
 
 }

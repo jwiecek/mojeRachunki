@@ -13,4 +13,6 @@ export const BillSchema = new mongoose.Schema({
   description: String,
   createdAt: String,
   updatedAt: String,
+  createdById: mongoose.Schema.Types.ObjectId,
+  updatedById: mongoose.Schema.Types.ObjectId,
 });

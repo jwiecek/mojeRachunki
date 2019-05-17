@@ -12,13 +12,31 @@ import {
   Res,
   UploadedFiles,
   UseInterceptors,
-  FilesInterceptor,
+  FilesInterceptor, FileInterceptor, UploadedFile,
 } from '@nestjs/common';
 import { BillsService} from './bills.service';
 import { Bill } from './interfaces/bill.interfaces';
 import { CreateBillDto} from './dto/create-bill.dto';
 import { ApiUseTags, ApiImplicitFile } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
+import { multerOptions } from '../config/multer.config';
+
+import { extname } from 'path';
+import * as path from 'path';
+
+const pngFileFilter = (req, file, callback) => {
+
+  let ext = path.extname(file.originalname);
+
+  if(ext !== '.jpg'){
+    req.fileValidationError = 'Invalid file type';
+    return callback(new Error('Invalid file type'), false);
+  }
+
+  return callback(null, true);
+
+}
+
 
 @ApiUseTags('bills')
 @Controller('bills')
@@ -67,11 +85,23 @@ export class BillsController {
   }
 
   @Post('/uploadPhoto')
-  @UseInterceptors(FilesInterceptor('image'))
-  @ApiImplicitFile({ name: 'image', required: true })
-  uploadFile(@UploadedFiles() file, @Body() body) {
-    console.log(file);
-    return file;
+  @UseInterceptors(FilesInterceptor('images', 20, {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, cb) => {
+        const randomName = Array(32).fill(null).map(() =>
+          (Math.round(Math.random() * 16)).toString(16)).join('');
+        return cb(null, `${randomName}${extname(file.originalname)}`);
+      },
+    }),
+  }))
+  logFiles(@UploadedFiles() images, @Body() fileDto) {
+
+    console.log(images);
+    console.log(fileDto);
+
+    return 'Done';
+
   }
 
   @Get(':imgpath')
