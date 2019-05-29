@@ -37,4 +37,10 @@ export class CreateBillDto {
 
   @ApiModelProperty()
   readonly updatedAt: string;
+
+  @ApiModelProperty()
+  readonly createdById: string;
+
+  @ApiModelProperty()
+  readonly updatedById?: string;
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -19,19 +19,26 @@ export class UsersController {
 
   // This route will require successfully passing our default auth strategy (JWT) in order
   // to access the route
-  // @Get('test')
-  // @UseGuards(AuthGuard())
-  //
-  // testAuthRoute() {
-  //   return {
-  //     message: 'You did it!'
-  //   }
-  // }
+  @Get('test')
+  @UseGuards(AuthGuard())
+
+  testAuthRoute() {
+    return {
+      message: 'You did it!'
+    }
+  }
 
   @Get('users')
   @UseGuards(AuthGuard())
   findAll() {
     return [];
+  }
+
+  @Get('user')
+  @UseGuards(AuthGuard())
+  public async user(@Req() req) {
+    console.log(req.user);
+    return req.user;
   }
 
 }

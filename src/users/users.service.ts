@@ -1,6 +1,5 @@
 import { Model } from 'mongoose';
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -17,5 +16,9 @@ export class UsersService {
   async findOneByEmail(email): Model<User> {
     return await this.userModel.findOne({email: email});
   }
+
+  // async findAll(): Model<User> {
+  //   return await this.userModel.findAll();
+  // }
 
 }

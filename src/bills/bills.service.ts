@@ -17,6 +17,9 @@ export class BillsService {
   async findAll(): Promise<Bill[]> {
     return await this.billModel.find().exec();
   }
+  async findAllByUser(createdById: string): Promise<Bill[]> {
+    return await this.billModel.find({createdById}).exec();
+  }
 
   async find(purchaseType: string) {
     return await this.billModel.find({purchaseType});
@@ -27,8 +30,7 @@ export class BillsService {
   }
 
   async updateBill(id, createBillDto: CreateBillDto): Promise<Bill> {
-    const updatedBill = await this.billModel.findByIdAndUpdate(id, createBillDto, { new: true });
-    return updatedBill;
+    return await this.billModel.findByIdAndUpdate(id, createBillDto, { new: true });
   }
 
   async destroyById(id: string) {

@@ -3,9 +3,12 @@ import { BillsController} from './bills.controller';
 import { BillsService } from './bills.service';
 import { billsProviders } from './bills.provider';
 import { DatabaseModule } from '../database/database.module';
+import { PassportModule } from '@nestjs/passport';
+
+export const passportModule = PassportModule.register({ defaultStrategy: 'jwt' });
 
 @Module({
-  imports: [DatabaseModule,
+  imports: [DatabaseModule, passportModule,
     MulterModule.register({
       dest: './uploads',
     }),
