@@ -4,4 +4,5 @@ export const TagSchema = new mongoose.Schema({
   label: String,
   type: String,
   belongToLabel: [String],
+  createdById: String,
 });

@@ -39,9 +39,7 @@ export class BillsController {
 
   @UseGuards(AuthGuard())
   @Get('allBills')
-  async findAll(@User() user): Promise<Bill[]> {
-    console.log('user');
-    console.log(user);
+  async findAll(): Promise<Bill[]> {
     return this.billsServices.findAll();
   }
 
@@ -85,8 +83,8 @@ export class BillsController {
 
   @UseGuards(AuthGuard())
   @Get('filter/:data')
-  async filter(@Param('data') data: string): Promise<any[]> {
-    return this.billsServices.filter(data);
+  async filter(@User() user, @Param('data') data: string): Promise<any[]> {
+    return this.billsServices.filter(data, user.userId);
   }
 
   @UseGuards(AuthGuard())

@@ -10,4 +10,7 @@ export class CreateTagDto {
 
   @ApiModelProperty()
   readonly belongToLabel?: string[];
+
+  @ApiModelProperty()
+  readonly createdById?: string[];
 }

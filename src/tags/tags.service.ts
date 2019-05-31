@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Tag } from './interfaces/tag.interfaces';
 import { CreateTagDto } from './dto/create-tag.dto';
@@ -20,8 +20,12 @@ export class TagsService {
       // });
   }
 
-  async findAll(): Promise<Tag[]> {
-    return await this.tagModel.find().exec();
+  async findAll(createdById: string): Promise<Tag[]> {
+    return await this.tagModel.find({createdById}).exec();
+  }
+
+  async findBasic(createdById: string): Promise<Tag[]> {
+    return await this.tagModel.find({createdById}).exec();
   }
 
   async destroyById(id: string) {

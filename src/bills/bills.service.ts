@@ -38,12 +38,14 @@ export class BillsService {
     return {deleted : true};
   }
 
-  async filter(data: string) {
+  async filter(data: string, currentUser: string) {
     const filterList = [];
     const products = await this.billModel.aggregate([
       {$match: {
-        product: {$regex: data, $options: 'i' },
-      }},
+        $and: [
+        {createdById : currentUser},
+        {product: {$regex: data, $options: 'i' },
+      }]}},
       // {$unwind: '$product'},
       {$group: {
           _id: '$product',
@@ -53,6 +55,7 @@ export class BillsService {
 
     const brands = await this.billModel.aggregate([
       {$match: {
+        createdById : currentUser,
         brand: {$regex: data, $options: 'i' },
       }},
       // {$unwind: '$brand'},
@@ -64,6 +67,7 @@ export class BillsService {
 
     const shops = await this.billModel.aggregate([
       {$match: {
+          createdById : currentUser,
           shop: {$regex: data, $options: 'i' },
       }},
       // {$unwind: '$shop'},
