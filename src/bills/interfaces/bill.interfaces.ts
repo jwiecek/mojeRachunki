@@ -10,6 +10,7 @@ export interface Bill extends Document {
   readonly product: string[];
   readonly brand: string[];
   readonly warranty: number;
+  readonly warrantyEndDate: string;
   readonly description?: string;
   readonly createdAt: string;
   readonly updatedAt: string;

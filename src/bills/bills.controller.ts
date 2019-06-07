@@ -23,6 +23,7 @@ import { diskStorage } from 'multer';
 import { multerOptions } from '../config/multer.config';
 import { User } from '../users/user.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { FilterBillDto } from './dto/filter-bill.dto';
 
 @ApiUseTags('bills')
 @Controller('bills')
@@ -85,6 +86,12 @@ export class BillsController {
   @Get('filter/:data')
   async filter(@User() user, @Param('data') data: string): Promise<any[]> {
     return this.billsServices.filter(data, user.userId);
+  }
+
+  @UseGuards(AuthGuard())
+  @Post('filterAll')
+  async filterAll(@Body() filterBillDto: FilterBillDto, @User() user): Promise<Bill[]> {
+    return this.billsServices.filterAll(filterBillDto, user.userId);
   }
 
   @UseGuards(AuthGuard())

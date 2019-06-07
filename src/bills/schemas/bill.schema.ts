@@ -10,6 +10,7 @@ export const BillSchema = new mongoose.Schema({
   product: [String],
   brand: [String],
   warranty: Number,
+  warrantyEndDate: String,
   description: String,
   createdAt: String,
   updatedAt: String,

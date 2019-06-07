@@ -30,6 +30,9 @@ export class CreateBillDto {
   readonly warranty: number;
 
   @ApiModelProperty()
+  readonly warrantyEndDate: string;
+
+  @ApiModelProperty()
   readonly description?: string;
 
   @ApiModelProperty()

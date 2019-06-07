@@ -2,6 +2,7 @@ import { Model } from 'mongoose';
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateBillDto } from './dto/create-bill.dto';
 import { Bill } from './interfaces/bill.interfaces';
+import { ObjectId } from "mongodb";
 
 @Injectable()
 export class BillsService {
@@ -80,5 +81,44 @@ export class BillsService {
     filterList.push(...products, ...brands, ...shops);
 
     return await filterList;
+  }
+
+  async filterAll(filters, currentUser: string){
+    const filterParse = JSON.parse(JSON.stringify(filters));
+    const idList = filters.searchIdList.map(id => ObjectId(id));
+    const filterArray: any = [
+      { createdById: currentUser },
+    ];
+    if(filters.selectedCategory.length){
+      filterArray.push({ purchaseType: {$in: filterParse.selectedCategory}});
+    }
+    if(filters.selectedPrice.length){
+      filterArray.push({ price: { $in: filterParse.selectedPrice} });
+    }
+    if(filters.purchaseDateFrom){
+      filterArray.push({ purchaseDate: { $gt: filters.purchaseDateFrom } },
+      );
+    }
+    if(filters.purchaseDateTo){
+      filterArray.push({ purchaseDate: { $gt: filters.purchaseDateTo } },
+      );
+    }
+    if(filters.warrantyDateFrom){
+      filterArray.push({ warrantyEndDate: {$gt: filters.warrantyDateFrom} },
+      );
+    }
+    if(filters.warrantyDateFrom){
+      filterArray.push({ warrantyEndDate: {$gt: filters.warrantyDateTo} },
+      );
+    }
+    if(idList.length){
+      filterArray.push( { _id: {$in: idList} });
+    }
+    const billsFiltered = await this.billModel.find(
+      {
+        $and:  filterArray
+      }
+    );
+    return await billsFiltered
   }
 }
