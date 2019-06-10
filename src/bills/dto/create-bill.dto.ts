@@ -9,7 +9,7 @@ export class CreateBillDto {
   readonly imageProductPath?: string;
 
   @ApiModelProperty()
-  readonly price: string;
+  readonly price: number;
 
   @ApiModelProperty()
   readonly purchaseDate: string;

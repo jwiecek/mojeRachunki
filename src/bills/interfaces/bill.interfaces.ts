@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 export interface Bill extends Document {
   readonly imageBillPath?: string;
   readonly imageProductPath?: string;
-  readonly price: string;
+  readonly price: number;
   readonly purchaseDate: string;
   readonly purchaseType: string;
   readonly shop: string;

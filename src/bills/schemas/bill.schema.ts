@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 export const BillSchema = new mongoose.Schema({
   imageBillPath: String,
   imageProductPath: String,
-  price: String,
+  price: Number,
   purchaseDate: String,
   purchaseType: String,
   shop: String,

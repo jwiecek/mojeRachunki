@@ -92,28 +92,32 @@ export class BillsService {
     if(filters.selectedCategory.length){
       filterArray.push({ purchaseType: {$in: filterParse.selectedCategory}});
     }
-    if(filters.selectedPrice.length){
-      filterArray.push({ price: { $in: filterParse.selectedPrice} });
+    if(filters.selectedPriceFrom){
+      filterArray.push({ price: { $gt: filterParse.selectedPriceFrom} });
+    }
+    if(filters.selectedPriceTo){
+      filterArray.push({ price: { $lte: filterParse.selectedPriceTo} });
     }
     if(filters.purchaseDateFrom){
-      filterArray.push({ purchaseDate: { $gt: filters.purchaseDateFrom } },
+      filterArray.push({ purchaseDate: { $gt: filterParse.purchaseDateFrom } },
       );
     }
     if(filters.purchaseDateTo){
-      filterArray.push({ purchaseDate: { $gt: filters.purchaseDateTo } },
+      filterArray.push({ purchaseDate: { $lte: filterParse.purchaseDateTo } },
       );
     }
     if(filters.warrantyDateFrom){
-      filterArray.push({ warrantyEndDate: {$gt: filters.warrantyDateFrom} },
+      filterArray.push({ warrantyEndDate: {$gt: filterParse.warrantyDateFrom} },
       );
     }
-    if(filters.warrantyDateFrom){
-      filterArray.push({ warrantyEndDate: {$gt: filters.warrantyDateTo} },
+    if(filters.warrantyDateTo){
+      filterArray.push({ warrantyEndDate: {$lte: filterParse.warrantyDateTo} },
       );
     }
     if(idList.length){
       filterArray.push( { _id: {$in: idList} });
     }
+
     const billsFiltered = await this.billModel.find(
       {
         $and:  filterArray
