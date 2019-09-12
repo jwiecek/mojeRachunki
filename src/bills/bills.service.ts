@@ -84,6 +84,7 @@ export class BillsService {
   }
 
   async filterAll(filters, currentUser: string){
+    console.log(filters);
     const filterParse = JSON.parse(JSON.stringify(filters));
     const idList = filters.searchIdList.map(id => ObjectId(id));
     const filterArray: any = [
